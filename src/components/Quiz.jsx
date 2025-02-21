@@ -84,113 +84,58 @@ const Quiz = () => {
   const currentQuizQuestion = quizData[currentQuestion];
 
   return (
-    <div className="flex min-h-screen">
-      {/* Quiz Section - Left Side */}
-      <div className="w-1/2 p-8 border-r border-white/20">
-        <div className="mb-4">
-          <p className="text-white">Welcome, {userName}</p>
-          <p className="text-white">Time remaining: {timer}s</p>
-          <p className="text-white">
+    <div className="min-h-screen w-full p-4 md:p-8 bg-gray-100">
+      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-4 md:p-6">
+        {/* Question Counter */}
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-lg md:text-xl font-semibold">
             Question {currentQuestion + 1} of {quizData.length}
-          </p>
+          </h2>
+          <div className="text-lg md:text-xl font-semibold">Score: {score}</div>
         </div>
-        <div className="bg-white/80 p-6 rounded-lg">
-          <h2 className="text-xl mb-4">{currentQuizQuestion.question}</h2>
 
-          {feedback.show && (
-            <div
-              className={`p-3 mb-4 rounded ${
-                feedback.isCorrect
-                  ? "bg-green-100 text-green-700"
-                  : "bg-red-100 text-red-700"
-              }`}
-            >
-              {feedback.isCorrect
-                ? "Correct!"
-                : `Incorrect. The correct answer is: ${feedback.correctAnswer}`}
-            </div>
-          )}
+        {/* Question */}
+        <div className="mb-6">
+          <h3 className="text-base md:text-lg font-medium mb-4">
+            {currentQuizQuestion.question}
+          </h3>
+        </div>
 
-          {currentQuizQuestion.type === "multiple" ? (
-            <div className="grid grid-cols-2 gap-4">
-              {currentQuizQuestion.options.map((option, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleAnswer(option)}
-                  className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
-                  disabled={feedback.show}
-                >
-                  {option}
-                </button>
-              ))}
-            </div>
-          ) : (
-            <form onSubmit={handleNumberSubmit} className="space-y-4">
-              <input
-                type="number"
-                value={numberAnswer}
-                onChange={(e) => setNumberAnswer(e.target.value)}
-                placeholder="Enter your answer"
-                className="w-full p-2 border rounded"
-                disabled={feedback.show}
-                required
-              />
-              <button
-                type="submit"
-                className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
-                disabled={feedback.show}
-              >
-                Submit Answer
-              </button>
-            </form>
-          )}
-
-          <div className="mt-4 flex justify-end">
+        {/* Options */}
+        <div className="space-y-3">
+          {currentQuizQuestion.options.map((option, index) => (
             <button
-              onClick={handleSkip}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
-              disabled={feedback.show}
+              key={index}
+              onClick={() => handleAnswer(option)}
+              className={`w-full text-left p-3 md:p-4 rounded-lg transition-colors
+                ${
+                  feedback.show &&
+                  feedback.isCorrect &&
+                  option === feedback.correctAnswer
+                    ? "bg-green-100 text-green-700"
+                    : "bg-gray-100 hover:bg-gray-200"
+                }
+              `}
             >
-              Skip Question
+              <span className="text-sm md:text-base">{option}</span>
             </button>
-          </div>
+          ))}
         </div>
-      </div>
 
-      {/* Results Section - Right Side */}
-      <div className="w-1/2 p-8">
-        <div className="bg-white/80 p-6 rounded-lg">
-          <h2 className="text-2xl font-bold mb-6">Quiz Progress</h2>
-
-          {/* Current Score */}
-          <div className="mb-8">
-            <h3 className="text-xl mb-3">Current Score</h3>
-            <p className="text-3xl font-bold text-blue-600">
-              {score} / {quizData.length}
-            </p>
-          </div>
-
-          {/* Question History */}
-          <div>
-            <h3 className="text-xl mb-3">Question History</h3>
-            <div className="space-y-2">
-              {quizData.map((question, index) => (
-                <div
-                  key={index}
-                  className={`p-3 rounded ${
-                    index === currentQuestion
-                      ? "bg-blue-100 border-2 border-blue-500"
-                      : "bg-gray-100"
-                  }`}
-                >
-                  <p className="font-medium">Question {index + 1}</p>
-                  <p className="text-sm text-gray-600 truncate">
-                    {question.question}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Navigation Buttons */}
+        <div className="mt-6 flex justify-between gap-4">
+          <button
+            onClick={handleSkip}
+            className="px-4 py-2 rounded-lg bg-gray-500 text-white hover:bg-gray-600 text-sm md:text-base"
+          >
+            Skip Question
+          </button>
+          <button
+            onClick={handleNextQuestion}
+            className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 text-sm md:text-base"
+          >
+            {currentQuestion === quizData.length - 1 ? "Finish" : "Next"}
+          </button>
         </div>
       </div>
     </div>
