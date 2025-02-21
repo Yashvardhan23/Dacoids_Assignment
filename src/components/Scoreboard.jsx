@@ -12,7 +12,6 @@ const Scoreboard = () => {
     setTimer,
     saveQuizAttempt,
     quizHistory,
-    totalQuestions,
   } = useQuiz();
   const navigate = useNavigate();
 
@@ -43,32 +42,30 @@ const Scoreboard = () => {
   };
 
   return (
-    <div className="min-h-screen w-full p-4 md:p-8 bg-gray-100 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-lg p-6 md:p-8 max-w-md w-full">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">
-          Quiz Completed!
-        </h2>
-
-        <div className="text-center mb-8">
-          <p className="text-lg md:text-xl mb-2">
-            Your Score: {score} out of {totalQuestions}
-          </p>
-          <p className="text-base md:text-lg text-gray-600">
-            Percentage: {((score / totalQuestions) * 100).toFixed(1)}%
-          </p>
+    <div className="min-h-screen flex justify-center">
+      <div className="w-2/3 p-8">
+        <div className="bg-white/80 p-8 rounded-lg shadow-lg text-center">
+          <h2 className="text-2xl font-bold mb-4">Quiz Complete!</h2>
+          <p className="mb-4">Congratulations {userName}!</p>
+          <p className="text-xl mb-6">Your score: {score}/10</p>
+          <div className="space-x-4">
+            <button
+              onClick={handleRetry}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Try Again
+            </button>
+            <button
+              onClick={handleHome}
+              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            >
+              Home
+            </button>
+          </div>
         </div>
 
-        <div className="flex justify-center">
-          <button
-            onClick={handleRetry}
-            className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors text-base md:text-lg"
-          >
-            Try Again
-          </button>
-        </div>
+        <QuizHistory />
       </div>
-
-      <QuizHistory />
     </div>
   );
 };
