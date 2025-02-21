@@ -4,7 +4,7 @@ A dynamic quiz application built with React that features multiple-choice and in
 
 ## Live Demo
 
-[Quiz App Live Demo](your-deployed-url-here)
+[Quiz App Live Demo](https://marvelous-parfait-3c6a46.netlify.app/)
 
 ## Features
 
